@@ -15,6 +15,8 @@ func getUser(db *sql.DB) (user, error) {
 	id := 1
 	user := user{}
 	err := db.QueryRow("SELECT id, name FROM `test` WHERE `id` = ?", id).Scan(&user.Id, &user.Name)
+	// 此处只查询一行数据 返回一个struct 如果查询不到 应该返回一个error
+	// 可以是原有error 的wrap 或者是自定义的error类型
 	// 此处应当Wrap, 携带具体的user id, 或者原始的查询信息等
 	if err != nil {
 		newErr := fmt.Errorf("查询user时出错, ID 为 %d\n原始错误:\n%w", id, err)
